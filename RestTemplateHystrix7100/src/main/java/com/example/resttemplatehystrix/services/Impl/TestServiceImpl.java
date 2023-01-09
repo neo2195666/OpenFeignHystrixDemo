@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -24,6 +23,7 @@ public class TestServiceImpl implements TestService {
     public String get() {
         String url = "http://EUREKACLIENT/getWithNoParams";
         System.out.println("==========开始使RestTemplate进行远程访问=========");
+        System.out.println("线程名称" + Thread.currentThread().getName());
         //url,返回值类型
         String result = restTemplate.getForObject(url,String.class);
         System.out.println(result);
@@ -34,7 +34,6 @@ public class TestServiceImpl implements TestService {
     public String hystrixGet() {
         return "(服务降级)服务器繁忙，稍等";
     }
-
 
     /**
      * 熔断：强化版降级
@@ -184,4 +183,85 @@ public class TestServiceImpl implements TestService {
         return result;
     }
 
+    /**
+     * test1,test2分别使用独立的线程池，其他使用tomcat默认线程池
+     * @return
+     * 线程池隔离也可以做降级和熔断，本处不再演示
+     * groupKey - 分组唯一值，默认是当前类名。代表线程池隔离分组的定义
+     * commandKey - 命令唯一值。接口名，默认是当前方法名。用来区分一个组内不同接口
+     * threadPoolKey - 线程池的命名。线程池的命名是hystrix-"ThreadPoolKey"，线程池中每个线程的名字是线程池名+编号，编号从1开始。默认是groupKey的值
+     * threadPoolProperties - 定义线程池的配置
+     *      EXECUTION_ISOLATION_STRATEGY:隔离的策略，默认是Thread，可以是Semaphore
+     *      CORE_SIZE:线程池的容量，有几个线程
+     *      MAX_QUEUE_SIZE:线程池中的线程都被使用后，可以有多少请求阻塞，等待。默认-1，代表同步阻塞
+     *      QUEUE_SIZE_REJECTION_THRESHOLD:当阻塞队列中请求占满后，有多少个请求可以并发做降级处理
+     *      KEEP_ALIVE_TIME_MINUTES:线程池中的线程如果不被使用，可以存活多少分钟
+     */
+    @Override
+    @HystrixCommand(groupKey = "abc1",commandKey = "test1",threadPoolKey = "pool1",
+            commandProperties = {
+                    @HystrixProperty(name = HystrixPropertiesManager.EXECUTION_ISOLATION_STRATEGY,value = "THREAD")
+            },
+            threadPoolProperties = {
+                @HystrixProperty(name = HystrixPropertiesManager.CORE_SIZE,value = "2"),
+                @HystrixProperty(name = HystrixPropertiesManager.MAX_QUEUE_SIZE,value = "2"),
+                @HystrixProperty(name = HystrixPropertiesManager.QUEUE_SIZE_REJECTION_THRESHOLD,value = "5"),
+                @HystrixProperty(name = HystrixPropertiesManager.KEEP_ALIVE_TIME_MINUTES,value = "3"),
+    })
+    public String test1() {
+        String url = "http://EUREKACLIENT//getWithNoParams";
+        System.out.println("=================================");
+        System.out.println(Thread.currentThread().getName() + " => test1方法访问远程");
+        String result = restTemplate.getForObject(url,String.class);
+        System.out.println("返回结果是 => " + result);
+        System.out.println("=================================");
+        return result;
+    }
+
+    @Override
+    @HystrixCommand(groupKey = "abc2",commandKey = "test2",threadPoolKey = "pool2",
+            commandProperties = {
+                    @HystrixProperty(name = HystrixPropertiesManager.EXECUTION_ISOLATION_STRATEGY,value = "THREAD")
+            },
+            threadPoolProperties = {
+                @HystrixProperty(name = HystrixPropertiesManager.CORE_SIZE,value = "2"),
+                @HystrixProperty(name = HystrixPropertiesManager.MAX_QUEUE_SIZE,value = "2"),
+                @HystrixProperty(name = HystrixPropertiesManager.QUEUE_SIZE_REJECTION_THRESHOLD,value = "5"),
+                @HystrixProperty(name = HystrixPropertiesManager.KEEP_ALIVE_TIME_MINUTES,value = "3"),
+    })
+    public String test2() {
+        String url = "http://EUREKACLIENT//getWithNoParams";
+        System.out.println("=================================");
+        System.out.println(Thread.currentThread().getName() + " => test2方法访问远程");
+        String result = restTemplate.getForObject(url,String.class);
+        System.out.println("返回结果是 => " + result);
+        System.out.println("=================================");
+        return result;
+    }
+
+    /**
+     * semaphore隔离
+     * 需要设置最大信号量阀值
+     * 信号量隔离也可以配置降级和熔断，此处不演示
+     * @return
+     *
+     * EXECUTION_ISOLATION_SEMAPHORE_MAX_CONCURRENT_REQUESTS : 最大信号量
+     * FALLBACK_ISOLATION_SEMAPHORE_MAX_CONCURRENT_REQUESTS: 信号量不足时，最大并发降级数
+     */
+    @Override
+    @HystrixCommand(commandProperties = {
+            @HystrixProperty(name = HystrixPropertiesManager.EXECUTION_ISOLATION_STRATEGY,value = "SEMAPHORE"),
+            @HystrixProperty(name = HystrixPropertiesManager.EXECUTION_ISOLATION_SEMAPHORE_MAX_CONCURRENT_REQUESTS,value = "2"),
+            @HystrixProperty(name = HystrixPropertiesManager.FALLBACK_ISOLATION_SEMAPHORE_MAX_CONCURRENT_REQUESTS,value = "2"),
+
+    })
+    public String semaphore() {
+        String url = "http://EUREKACLIENT//getWithNoParams";
+        System.out.println("=================================");
+        System.out.println(Thread.currentThread().getName() + " => 信号量隔离访问远程");
+        String result = restTemplate.getForObject(url,String.class);
+        System.out.println("返回结果是 => " + result);
+        System.out.println("=================================");
+        return result;
+    }
 }

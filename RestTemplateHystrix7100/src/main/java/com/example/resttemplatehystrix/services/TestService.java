@@ -14,4 +14,10 @@ public interface TestService {
     String delete(String name,int age);
 
     Future<String> details(Integer id);
+
+    String test1();
+
+    String test2();
+
+    String semaphore();
 }

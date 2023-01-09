@@ -12,9 +12,23 @@ public class TestController {
     @Autowired
     private TestService testService;
 
+    @RequestMapping("/semaphore")
+    public String semaphore(){
+        return testService.semaphore();
+    }
+
+    @RequestMapping("/test1")
+    public String test1(){
+        return testService.test1();
+    }
+
+    @RequestMapping("/test2")
+    public String test2(){
+        return testService.test2();
+    }
     @RequestMapping("/get")
     public String get(){
-        String result = testService.getCircuitBreaker();
+        String result = testService.get();
         return result;
     }
 
