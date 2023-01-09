@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="OpenFeignHystrix" />
+        <module name="OpenFeignTest8000" />
+        <module name="Eureka7001" />
+        <module name="Provider9002" />
+        <module name="Provider9001" />
+        <module name="RestTemplateHystrix6000" />
+        <module name="provider9002" />
+        <module name="Eureka_Client8001" />
+        <module name="Eureka_Client8002" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Eureka7001" options="-parameters" />
+      <module name="Eureka_Client8001" options="-parameters" />
+      <module name="Eureka_Client8002" options="-parameters" />
+      <module name="OpenFeignTest8000" options="-parameters" />
+      <module name="Provider9001" options="-parameters" />
+      <module name="Provider9002" options="-parameters" />
+      <module name="RestTemplateHystrix6000" options="-parameters" />
+      <module name="provider9002" options="-parameters" />
+    </option>
+  </component>
+</project>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/Eureka7001/pom.xml" />
+        <option value="$PROJECT_DIR$/Provider9001/pom.xml" />
+        <option value="$PROJECT_DIR$/OpenFeignTest/pom.xml" />
+        <option value="$PROJECT_DIR$/Eureka_Client/pom.xml" />
+        <option value="$PROJECT_DIR$/RestTemplateHystrix/pom.xml" />
+        <option value="$PROJECT_DIR$/Eureka_Client2/pom.xml" />
+        <option value="$PROJECT_DIR$/provider9002/pom.xml" />
+        <option value="$PROJECT_DIR$/Eureka_Client8001/pom.xml" />
+        <option value="$PROJECT_DIR$/Eureka_Client8002/pom.xml" />
+        <option value="$PROJECT_DIR$/OpenFeignTest8000/pom.xml" />
+        <option value="$PROJECT_DIR$/RestTemplateHystrix6000/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
