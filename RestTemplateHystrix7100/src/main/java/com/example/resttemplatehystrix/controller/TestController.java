@@ -11,7 +11,7 @@ public class TestController {
     @Autowired
     private TestService testService;
 
-    @RequestMapping("/")
+    @RequestMapping("/get")
     public String get(){
         String result = testService.get();
         return result;

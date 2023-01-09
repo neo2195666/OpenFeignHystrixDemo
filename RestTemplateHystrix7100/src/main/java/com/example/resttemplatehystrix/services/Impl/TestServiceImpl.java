@@ -24,13 +24,8 @@ public class TestServiceImpl implements TestService {
     }
 
     public String hystrixGet() {
-        String url = "http://EUREKACLIENT/getWithNoParams";
-        System.out.println("==========开始使hystrixGet进行远程访问=========");
-        //url,返回值类型
-        String result = restTemplate.getForObject(url,String.class);
-        System.out.println(result);
-        System.out.println("==========开始使hystrixGet远程访问结束=========");
-        return result;
+
+        return "服务器繁忙，稍等";
     }
 
 }
