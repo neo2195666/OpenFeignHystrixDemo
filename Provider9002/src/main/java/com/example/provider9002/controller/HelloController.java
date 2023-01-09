@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
     @RequestMapping("/hello")
     public String hello(){
-        return "provider-9001";
+        return "provider-9002";
     }
 
     @RequestMapping("/getwithparams")

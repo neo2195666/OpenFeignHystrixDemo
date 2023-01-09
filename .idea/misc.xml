@@ -16,6 +16,7 @@
         <option value="$PROJECT_DIR$/Eureka_Client8002/pom.xml" />
         <option value="$PROJECT_DIR$/OpenFeignTest8000/pom.xml" />
         <option value="$PROJECT_DIR$/RestTemplateHystrix6000/pom.xml" />
+        <option value="$PROJECT_DIR$/RestTemplateHystrix7100/pom.xml" />
       </list>
     </option>
   </component>
